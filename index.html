@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Decision Maker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Quick Decision Maker</h1>
+            <p>AI-powered personal decision assistant</p>
+        </header>
+
+        <!-- Decision Input Form -->
+        <div class="decision-form" id="decisionForm">
+            <div class="form-group">
+                <label for="decision">What decision are you making?</label>
+                <input 
+                    type="text" 
+                    id="decision" 
+                    placeholder="e.g., Should I take this new job offer?"
+                    required
+                >
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="pros">Pros (one per line)</label>
+                    <textarea 
+                        id="pros" 
+                        placeholder="Higher salary&#10;Remote work&#10;Better benefits"
+                        rows="5"
+                    ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="cons">Cons (one per line)</label>
+                    <textarea 
+                        id="cons" 
+                        placeholder="Longer hours&#10;Unknown team&#10;Less vacation"
+                        rows="5"
+                    ></textarea>
+                </div>
+            </div>
+
+            <button type="button" id="analyzeBtn" class="analyze-btn">
+                <span id="btnText">Get AI Recommendation</span>
+                <span id="loadingSpinner" class="spinner" style="display: none;">🤔</span>
+            </button>
+        </div>
+
+        <!-- Results Display -->
+        <div class="results-container" id="resultsContainer" style="display: none;">
+            <div class="results-header">
+                <h2>AI Recommendation</h2>
+                <div class="confidence-score" id="confidenceScore">
+                    <!-- Confidence percentage will go here -->
+                </div>
+            </div>
+
+            <div class="recommendation-text" id="recommendationText">
+                <!-- AI recommendation will go here -->
+            </div>
+
+            <div class="reasoning-section">
+                <h3>Reasoning</h3>
+                <div class="reasoning-text" id="reasoningText">
+                    <!-- AI reasoning will go here -->
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="button" id="newDecisionBtn" class="secondary-btn">
+                    Make Another Decision
+                </button>
+                <button type="button" id="saveDecisionBtn" class="primary-btn">
+                    Save Decision
+                </button>
+            </div>
+        </div>
+
+        <!-- Decision History -->
+        <div class="history-container" id="historyContainer" style="display: none;">
+            <h3>Decision History</h3>
+            <div id="historyList" class="history-list">
+                <!-- Saved decisions will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Load configuration and main script -->
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

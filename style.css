@@ -1,0 +1,347 @@
+/* ==============================================
+   RESET AND BASE STYLES
+   ============================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ==============================================
+   CONTAINER AND LAYOUT
+   ============================================== */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* ==============================================
+   HEADER
+   ============================================== */
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px 30px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* ==============================================
+   FORM STYLES
+   ============================================== */
+.decision-form {
+    padding: 40px 30px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 10px;
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 120px;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* ==============================================
+   BUTTONS
+   ============================================== */
+.analyze-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+
+.analyze-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.analyze-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.primary-btn, .secondary-btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.primary-btn {
+    background: #667eea;
+    color: white;
+}
+
+.primary-btn:hover {
+    background: #5a6fd8;
+    transform: translateY(-1px);
+}
+
+.secondary-btn {
+    background: #f8f9fa;
+    color: #555;
+    border: 2px solid #e1e5e9;
+}
+
+.secondary-btn:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+/* ==============================================
+   RESULTS SECTION
+   ============================================== */
+.results-container {
+    padding: 40px 30px;
+    border-top: 1px solid #e1e5e9;
+    background: #f8f9fa;
+}
+
+.results-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.results-header h2 {
+    color: #333;
+    font-size: 1.8rem;
+}
+
+.confidence-score {
+    background: #667eea;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.recommendation-text {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border-left: 4px solid #667eea;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.reasoning-section h3 {
+    margin-bottom: 15px;
+    color: #555;
+    font-size: 1.2rem;
+}
+
+.reasoning-text {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    line-height: 1.6;
+    color: #666;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    justify-content: center;
+}
+
+/* ==============================================
+   HISTORY SECTION
+   ============================================== */
+.history-container {
+    padding: 30px;
+    border-top: 1px solid #e1e5e9;
+}
+
+.history-container h3 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.history-list {
+    display: grid;
+    gap: 15px;
+}
+
+.history-item {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e1e5e9;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.history-item:hover {
+    border-color: #667eea;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.history-item-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.history-item-date {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 8px;
+}
+
+.history-item-preview {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* ==============================================
+   RESPONSIVE DESIGN
+   ============================================== */
+@media (max-width: 768px) {
+    .container {
+        margin: 10px;
+        border-radius: 15px;
+    }
+    
+    .header {
+        padding: 30px 20px;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .decision-form {
+        padding: 30px 20px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .results-container {
+        padding: 30px 20px;
+    }
+    
+    .results-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .actions {
+        flex-direction: column;
+    }
+}
+
+/* ==============================================
+   UTILITY CLASSES
+   ============================================== */
+.hidden {
+    display: none !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
