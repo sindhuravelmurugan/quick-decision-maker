@@ -52,23 +52,41 @@
             </button>
         </div>
 
-        <!-- Results Display -->
+        <!-- Results Display (KEEPING OLD IDs + ADDING NEW STRUCTURE) -->
         <div class="results-container" id="resultsContainer" style="display: none;">
+            <!-- Keep the old results-header for JavaScript compatibility -->
             <div class="results-header">
                 <h2>AI Recommendation</h2>
                 <div class="confidence-score" id="confidenceScore">
-                    <!-- Confidence percentage will go here -->
+                    <!-- Keep this for JavaScript compatibility -->
                 </div>
             </div>
 
-            <div class="recommendation-text" id="recommendationText">
-                <!-- AI recommendation will go here -->
+            <!-- NEW: Enhanced Recommendation Header -->
+            <div class="recommendation-header" id="recommendationHeader">
+                <div class="recommendation-badge" id="recommendationBadge">
+                    <span class="recommendation-icon" id="recommendationIcon">🤔</span>
+                    <span class="recommendation-text-new" id="recommendationTextNew">Analyzing...</span>
+                </div>
+                
+                <div class="confidence-circle">
+                    <svg class="progress-ring" width="80" height="80">
+                        <circle class="progress-ring-circle" cx="40" cy="40" r="30"></circle>
+                        <circle class="progress-ring-fill" id="progressRingFill" cx="40" cy="40" r="30"></circle>
+                    </svg>
+                    <div class="confidence-number" id="confidenceNumber">0%</div>
+                </div>
+            </div>
+
+            <!-- Keep OLD elements for JavaScript compatibility -->
+            <div class="recommendation-text" id="recommendationText" style="display: none;">
+                <!-- This stays for JavaScript compatibility -->
             </div>
 
             <div class="reasoning-section">
                 <h3>Reasoning</h3>
                 <div class="reasoning-text" id="reasoningText">
-                    <!-- AI reasoning will go here -->
+                    <!-- Keep this for JavaScript compatibility -->
                 </div>
             </div>
 

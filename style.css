@@ -1,7 +1,5 @@
-/* ==============================================
-   RESET AND BASE STYLES
-   ============================================== */
-* {
+
+   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -16,9 +14,7 @@ body {
     padding: 20px;
 }
 
-/* ==============================================
-   CONTAINER AND LAYOUT
-   ============================================== */
+
 .container {
     max-width: 800px;
     margin: 0 auto;
@@ -28,9 +24,7 @@ body {
     overflow: hidden;
 }
 
-/* ==============================================
-   HEADER
-   ============================================== */
+
 .header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -49,9 +43,7 @@ body {
     opacity: 0.9;
 }
 
-/* ==============================================
-   FORM STYLES
-   ============================================== */
+
 .decision-form {
     padding: 40px 30px;
 }
@@ -107,9 +99,7 @@ textarea:focus {
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-/* ==============================================
-   BUTTONS
-   ============================================== */
+
 .analyze-btn {
     width: 100%;
     padding: 18px;
@@ -175,9 +165,7 @@ textarea:focus {
     border-color: #adb5bd;
 }
 
-/* ==============================================
-   RESULTS SECTION
-   ============================================== */
+
 .results-container {
     padding: 40px 30px;
     border-top: 1px solid #e1e5e9;
@@ -205,6 +193,364 @@ textarea:focus {
     font-size: 1.1rem;
 }
 
+/* NEW: Enhanced Recommendation Header */
+.recommendation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.recommendation-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 25px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.recommendation-badge.proceed {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.recommendation-badge.reject {
+    background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+.recommendation-badge.neutral {
+    background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+}
+
+.recommendation-icon {
+    font-size: 1.3rem;
+}
+
+/* Enhanced Confidence Circle */
+.confidence-circle {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.progress-ring {
+    width: 80px;
+    height: 80px;
+    transform: rotate(-90deg);
+}
+
+.progress-ring-circle {
+    cx: 40;
+    cy: 40;
+    r: 30;
+    fill: transparent;
+    stroke: #e9ecef;
+    stroke-width: 6;
+}
+
+.progress-ring-fill {
+    cx: 40;
+    cy: 40;
+    r: 30;
+    fill: transparent;
+    stroke: #28a745;
+    stroke-width: 6;
+    stroke-dasharray: 0 188.5;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.8s ease-in-out;
+}
+
+.confidence-number {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #28a745;
+    background: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #28a745;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+
+.reasoning-summary-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 12px 12px 0 0;
+    margin-bottom: 0;
+}
+
+.reasoning-summary-section h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 12px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.section-icon {
+    font-size: 1.2rem;
+}
+
+.summary-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+    opacity: 0.95;
+}
+
+/* Main Analysis Section */
+.reasoning-main-section {
+    background: white;
+    padding: 25px;
+    border-left: 1px solid #e9ecef;
+    border-right: 1px solid #e9ecef;
+}
+
+.reasoning-main-section h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 20px 0;
+    color: #495057;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.reasoning-points {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.reasoning-point {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.reasoning-point:hover {
+    background: #e3f2fd;
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.point-indicator {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.point-content {
+    line-height: 1.6;
+    color: #495057;
+}
+
+/* Key Factors Section */
+.reasoning-factors-section {
+    background: white;
+    padding: 25px;
+    border-left: 1px solid #e9ecef;
+    border-right: 1px solid #e9ecef;
+    border-top: 1px solid #e9ecef;
+}
+
+.reasoning-factors-section h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 20px 0;
+    color: #495057;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.factors-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.factor-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    background: #f0f8ff;
+    border-radius: 8px;
+    border-left: 3px solid #667eea;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.factor-item:hover {
+    background: #e3f2fd;
+    transform: translateX(3px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.factor-bullet {
+    color: #667eea;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.factor-text {
+    line-height: 1.5;
+    color: #495057;
+    font-size: 0.95rem;
+}
+
+/* Suggestions Section */
+.reasoning-suggestions-section {
+    background: white;
+    padding: 25px;
+    border: 1px solid #e9ecef;
+    border-radius: 0 0 12px 12px;
+    border-top: none;
+}
+
+.reasoning-suggestions-section h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 20px 0;
+    color: #495057;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.suggestions-list {
+    display: grid;
+    gap: 12px;
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    background: #f0fff4;
+    border-radius: 8px;
+    border-left: 3px solid #28a745;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+.suggestion-item:hover {
+    background: #e8f5e8;
+    transform: translateX(3px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.suggestion-icon {
+    background: #28a745;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.suggestion-text {
+    line-height: 1.5;
+    color: #495057;
+    font-size: 0.95rem;
+}
+
+/* Basic Reasoning Fallback */
+.reasoning-basic-section {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.reasoning-basic-section h4 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 20px 0;
+    color: #495057;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.basic-reasoning-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.reasoning-paragraph {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+    line-height: 1.6;
+    color: #495057;
+    animation: fadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.reasoning-paragraph:hover {
+    background: #e3f2fd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Legacy support for old recommendation text */
 .recommendation-text {
     background: white;
     padding: 25px;
@@ -236,9 +582,7 @@ textarea:focus {
     justify-content: center;
 }
 
-/* ==============================================
-   HISTORY SECTION
-   ============================================== */
+
 .history-container {
     padding: 30px;
     border-top: 1px solid #e1e5e9;
@@ -286,9 +630,32 @@ textarea:focus {
     color: #666;
 }
 
-/* ==============================================
-   RESPONSIVE DESIGN
-   ============================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fillProgress {
+    from { 
+        stroke-dasharray: 0 188.5; 
+    }
+    to { 
+        stroke-dasharray: var(--progress) 188.5; 
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+
 @media (max-width: 768px) {
     .container {
         margin: 10px;
@@ -322,14 +689,95 @@ textarea:focus {
         text-align: center;
     }
     
+    .recommendation-header {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+    
+    .reasoning-point {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .point-indicator {
+        align-self: flex-start;
+    }
+    
+    .reasoning-main-section,
+    .reasoning-factors-section,
+    .reasoning-suggestions-section,
+    .reasoning-basic-section {
+        padding: 20px 15px;
+    }
+    
+    .factor-item,
+    .suggestion-item {
+        padding: 10px 12px;
+    }
+    
+    .confidence-circle {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .confidence-number {
+        width: 50px;
+        height: 50px;
+        font-size: 1rem;
+    }
+    
+    .progress-ring {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .progress-ring-circle, .progress-ring-fill {
+        cx: 35;
+        cy: 35;
+        r: 25;
+    }
+    
     .actions {
         flex-direction: column;
     }
+    
+    .recommendation-badge {
+        font-size: 1.1rem;
+    }
 }
 
-/* ==============================================
-   UTILITY CLASSES
-   ============================================== */
+@media (max-width: 480px) {
+    .recommendation-header {
+        padding: 20px;
+    }
+    
+    .reasoning-summary-section,
+    .reasoning-main-section,
+    .reasoning-factors-section,
+    .reasoning-suggestions-section,
+    .reasoning-basic-section {
+        padding: 15px;
+    }
+    
+    .factor-item, .suggestion-item {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .reasoning-point {
+        padding: 12px;
+    }
+    
+    .point-content {
+        font-size: 0.9rem;
+    }
+    
+    .summary-text {
+        font-size: 0.95rem;
+    }
+}
+
 .hidden {
     display: none !important;
 }
@@ -344,4 +792,73 @@ textarea:focus {
 
 .mb-20 {
     margin-bottom: 20px;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus states for better accessibility */
+.recommendation-badge:focus,
+.factor-item:focus,
+.suggestion-item:focus,
+.reasoning-point:focus,
+.reasoning-paragraph:focus {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .recommendation-badge.proceed {
+        background: #000;
+        border: 2px solid #fff;
+    }
+    
+    .recommendation-badge.reject {
+        background: #fff;
+        color: #000;
+        border: 2px solid #000;
+    }
+    
+    .reasoning-point,
+    .factor-item,
+    .suggestion-item,
+    .reasoning-paragraph {
+        border-width: 2px;
+        border-style: solid;
+    }
+}
+
+
+@media print {
+    body {
+        background: white;
+        padding: 0;
+    }
+    
+    .container {
+        box-shadow: none;
+        border-radius: 0;
+    }
+    
+    .header {
+        background: #667eea !important;
+        color: white !important;
+    }
+    
+    .recommendation-badge,
+    .confidence-circle,
+    .reasoning-summary-section {
+        print-color-adjust: exact;
+    }
+    
+    .actions {
+        display: none;
+    }
 }

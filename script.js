@@ -1,8 +1,3 @@
-// ==============================================
-// QUICK DECISION MAKER - MAIN SCRIPT
-// Complete version with real Groq API integration
-// ==============================================
-
 class DecisionMaker {
     constructor() {
         this.currentDecision = null;
@@ -12,9 +7,6 @@ class DecisionMaker {
         this.checkAPIConfiguration();
     }
 
-    // ==============================================
-    // INITIALIZATION
-    // ==============================================
     initializeEventListeners() {
         // Main analyze button
         document.getElementById('analyzeBtn').addEventListener('click', () => {
@@ -61,9 +53,6 @@ class DecisionMaker {
         textarea.style.height = textarea.scrollHeight + 'px';
     }
 
-    // ==============================================
-    // FORM HANDLING
-    // ==============================================
     getFormData() {
         const decision = document.getElementById('decision').value.trim();
         const prosText = document.getElementById('pros').value.trim();
@@ -102,15 +91,43 @@ class DecisionMaker {
         document.querySelectorAll('textarea').forEach(textarea => {
             textarea.style.height = 'auto';
         });
+
+        // Reset enhanced UI elements
+        this.resetEnhancedElements();
+    }
+
+    resetEnhancedElements() {
+        // Reset recommendation badge
+        const badge = document.getElementById('recommendationBadge');
+        const icon = document.getElementById('recommendationIcon');
+        const text = document.getElementById('recommendationTextNew');
+        
+        if (badge) {
+            badge.classList.remove('proceed', 'reject', 'neutral');
+        }
+        if (icon) {
+            icon.textContent = '🤔';
+        }
+        if (text) {
+            text.textContent = 'Analyzing...';
+        }
+
+        // Reset confidence circle
+        const confidenceNumber = document.getElementById('confidenceNumber');
+        const progressRing = document.getElementById('progressRingFill');
+        
+        if (confidenceNumber) {
+            confidenceNumber.textContent = '0%';
+        }
+        if (progressRing) {
+            progressRing.style.strokeDasharray = '0 188.5';
+        }
     }
 
     showError(message) {
         alert(message);
     }
 
-    // ==============================================
-    // REAL AI ANALYSIS WITH GROQ API
-    // ==============================================
     async analyzeDecision() {
         const formData = this.getFormData();
         
@@ -293,9 +310,6 @@ Please structure your response clearly with your recommendation and confidence l
         alert(`${errorMessage}\n\n${suggestion}`);
     }
 
-    // ==============================================
-    // UI UPDATES
-    // ==============================================
     setLoadingState(isLoading) {
         const btn = document.getElementById('analyzeBtn');
         const btnText = document.getElementById('btnText');
@@ -306,15 +320,38 @@ Please structure your response clearly with your recommendation and confidence l
             btnText.style.display = 'none';
             spinner.style.display = 'inline';
             spinner.textContent = '🤔'; // Thinking emoji
+            
+            // Update enhanced elements for loading state
+            this.setEnhancedLoadingState(true);
         } else {
             btn.disabled = false;
             btnText.style.display = 'inline';
             spinner.style.display = 'none';
+            
+            this.setEnhancedLoadingState(false);
+        }
+    }
+
+    setEnhancedLoadingState(isLoading) {
+        const badge = document.getElementById('recommendationBadge');
+        const icon = document.getElementById('recommendationIcon');
+        const text = document.getElementById('recommendationTextNew');
+        
+        if (isLoading) {
+            if (badge) {
+                badge.classList.remove('proceed', 'reject', 'neutral');
+            }
+            if (icon) {
+                icon.textContent = '🤔';
+            }
+            if (text) {
+                text.textContent = 'Analyzing...';
+            }
         }
     }
 
     displayResults(analysis) {
-        // Update confidence score with color coding
+        // Update OLD elements (for compatibility)
         const confidenceElement = document.getElementById('confidenceScore');
         confidenceElement.textContent = `${analysis.confidence}%`;
         
@@ -327,22 +364,309 @@ Please structure your response clearly with your recommendation and confidence l
             confidenceElement.style.background = '#dc3545'; // Red
         }
         
-        // Update recommendation with better formatting
+        // Update NEW enhanced elements
+        this.updateEnhancedRecommendation(analysis);
+        
+        // Update recommendation text (old way)
         const recommendationText = this.formatRecommendation(analysis);
         document.getElementById('recommendationText').innerHTML = recommendationText;
         
-        // Update reasoning with better formatting
-        document.getElementById('reasoningText').innerHTML = this.formatReasoning(analysis.reasoning);
+        // Update reasoning with enhanced formatting
+        const reasoningElement = document.getElementById('reasoningText');
+        reasoningElement.innerHTML = this.formatReasoning(analysis.reasoning);
+
+        // Add fade-in animation to reasoning sections
+        setTimeout(() => {
+            const reasoningSections = reasoningElement.querySelectorAll('[style*="animation-delay"]');
+            reasoningSections.forEach(section => {
+                section.style.opacity = '1';
+            });
+        }, 100);
         
         // Show results, hide form
         document.getElementById('resultsContainer').style.display = 'block';
         document.getElementById('decisionForm').style.display = 'none';
         
-        // Scroll to results
-        document.getElementById('resultsContainer').scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
+        // Scroll to results with animation
+        setTimeout(() => {
+            document.getElementById('resultsContainer').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+        }, 100);
+    }
+
+    formatReasoning(reasoning) {
+        // Try to parse structured reasoning first
+        const structuredReasoning = this.parseStructuredReasoning(reasoning);
+        
+        if (structuredReasoning) {
+            return this.renderStructuredReasoning(structuredReasoning);
+        } else {
+            // Fallback to enhanced basic formatting
+            return this.renderBasicReasoning(reasoning);
+        }
+    }
+
+    // NEW: Parse AI response into structured sections
+    parseStructuredReasoning(reasoning) {
+        try {
+            const sections = {};
+            
+            // Extract main summary (first paragraph)
+            const paragraphs = reasoning.split('\n\n');
+            if (paragraphs.length > 0) {
+                sections.summary = paragraphs[0].replace(/^\*\*.*?\*\*\s*/, '').trim();
+            }
+            
+            // Extract key factors
+            const factorsMatch = reasoning.match(/\*\*KEY FACTORS.*?\*\*(.*?)(?=\*\*|$)/s);
+            if (factorsMatch) {
+                const factorsText = factorsMatch[1];
+                sections.keyFactors = this.extractListItems(factorsText);
+            }
+            
+            // Extract suggestions
+            const suggestionsMatch = reasoning.match(/\*\*ADDITIONAL CONSIDERATIONS.*?\*\*(.*?)(?=\*\*|$)/s);
+            if (suggestionsMatch) {
+                const suggestionsText = suggestionsMatch[1];
+                sections.suggestions = this.extractListItems(suggestionsText);
+            }
+            
+            // Extract main reasoning paragraphs (exclude structured sections)
+            let mainReasoning = reasoning
+                .replace(/\*\*RECOMMENDATION.*?\*\*/g, '')
+                .replace(/\*\*CONFIDENCE.*?\*\*/g, '')
+                .replace(/\*\*DETAILED REASONING.*?\*\*/g, '')
+                .replace(/\*\*KEY FACTORS.*?\*\*[\s\S]*?(?=\*\*|$)/g, '')
+                .replace(/\*\*ADDITIONAL CONSIDERATIONS.*?\*\*[\s\S]*?(?=\*\*|$)/g, '')
+                .trim();
+            
+            // Split into paragraphs and clean up
+            sections.mainPoints = mainReasoning
+                .split('\n\n')
+                .filter(p => p.trim() && p.length > 20)
+                .map(p => p.trim());
+            
+            return sections.summary || sections.keyFactors || sections.suggestions || sections.mainPoints.length > 0 ? sections : null;
+            
+        } catch (error) {
+            console.error('Error parsing structured reasoning:', error);
+            return null;
+        }
+    }
+
+    // Extract numbered or bulleted list items
+    extractListItems(text) {
+        const lines = text.split('\n').filter(line => line.trim());
+        const items = [];
+        
+        for (const line of lines) {
+            const trimmed = line.trim();
+            // Match numbered lists (1. 2. 3.) or bullet points (• - *)
+            const match = trimmed.match(/^(?:\d+\.\s*|[•\-*]\s*)(.+)/);
+            if (match) {
+                items.push(match[1].trim());
+            } else if (trimmed.length > 10) {
+                // Include longer non-bulleted lines
+                items.push(trimmed);
+            }
+        }
+        
+        return items.length > 0 ? items : null;
+    }
+
+    // Render structured reasoning with enhanced UI
+    renderStructuredReasoning(sections) {
+        let html = '';
+        
+        // Quick Summary
+        if (sections.summary) {
+            html += `
+            <div class="reasoning-summary-section">
+                <h4><span class="section-icon">📝</span>Quick Summary</h4>
+                <p class="summary-text">${this.escapeHtml(sections.summary)}</p>
+            </div>`;
+        }
+        
+        // Main reasoning points
+        if (sections.mainPoints && sections.mainPoints.length > 0) {
+            html += `
+            <div class="reasoning-main-section">
+                <h4><span class="section-icon">🧠</span>Analysis</h4>
+                <div class="reasoning-points">`;
+            
+            sections.mainPoints.forEach((point, index) => {
+                html += `
+                    <div class="reasoning-point" style="animation-delay: ${index * 0.1}s">
+                        <div class="point-indicator">${index + 1}</div>
+                        <div class="point-content">${this.escapeHtml(point)}</div>
+                    </div>`;
+            });
+            
+            html += `</div></div>`;
+        }
+        
+        // Key factors
+        if (sections.keyFactors && sections.keyFactors.length > 0) {
+            html += `
+            <div class="reasoning-factors-section">
+                <h4><span class="section-icon">🎯</span>Key Factors</h4>
+                <div class="factors-grid">`;
+            
+            sections.keyFactors.forEach((factor, index) => {
+                html += `
+                    <div class="factor-item" style="animation-delay: ${index * 0.1}s">
+                        <span class="factor-bullet">▶</span>
+                        <span class="factor-text">${this.escapeHtml(factor)}</span>
+                    </div>`;
+            });
+            
+            html += `</div></div>`;
+        }
+        
+        // Suggestions
+        if (sections.suggestions && sections.suggestions.length > 0) {
+            html += `
+            <div class="reasoning-suggestions-section">
+                <h4><span class="section-icon">💡</span>Action Items</h4>
+                <div class="suggestions-list">`;
+            
+            sections.suggestions.forEach((suggestion, index) => {
+                html += `
+                    <div class="suggestion-item" style="animation-delay: ${index * 0.1}s">
+                        <span class="suggestion-icon">✓</span>
+                        <span class="suggestion-text">${this.escapeHtml(suggestion)}</span>
+                    </div>`;
+            });
+            
+            html += `</div></div>`;
+        }
+        
+        return html || this.renderBasicReasoning(sections.summary || 'Analysis complete.');
+    }
+
+    // Enhanced basic reasoning for non-structured responses
+    renderBasicReasoning(reasoning) {
+        const paragraphs = reasoning.split('\n\n').filter(p => p.trim());
+        
+        let html = `
+        <div class="reasoning-basic-section">
+            <h4><span class="section-icon">🧠</span>AI Analysis</h4>
+            <div class="basic-reasoning-content">`;
+        
+        paragraphs.forEach((paragraph, index) => {
+            const cleanParagraph = paragraph
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+            
+            html += `
+                <div class="reasoning-paragraph" style="animation-delay: ${index * 0.2}s">
+                    ${cleanParagraph}
+                </div>`;
         });
+        
+        html += `</div></div>`;
+        return html;
+    }
+
+    updateEnhancedRecommendation(analysis) {
+        // Update confidence circle with animation
+        this.animateConfidenceCircle(analysis.confidence);
+        
+        // Update recommendation badge
+        this.updateRecommendationBadge(analysis);
+    }
+
+    animateConfidenceCircle(confidence) {
+        const confidenceNumber = document.getElementById('confidenceNumber');
+        const progressRing = document.getElementById('progressRingFill');
+        
+        if (confidenceNumber) {
+            // Animate number counting up
+            this.animateNumber(confidenceNumber, 0, confidence, 1000);
+        }
+        
+        if (progressRing) {
+            // Calculate stroke-dasharray for circle progress
+            const circumference = 2 * Math.PI * 30; // radius = 30
+            const progress = (confidence / 100) * circumference;
+            
+            // Set initial state
+            progressRing.style.strokeDasharray = `0 ${circumference}`;
+            
+            // Animate progress ring
+            setTimeout(() => {
+                progressRing.style.strokeDasharray = `${progress} ${circumference}`;
+                progressRing.style.transition = 'stroke-dasharray 1s ease-in-out';
+                
+                // Color based on confidence
+                if (confidence >= 75) {
+                    progressRing.style.stroke = '#28a745';
+                    if (confidenceNumber) {
+                        confidenceNumber.style.borderColor = '#28a745';
+                        confidenceNumber.style.color = '#28a745';
+                    }
+                } else if (confidence >= 50) {
+                    progressRing.style.stroke = '#ffc107';
+                    if (confidenceNumber) {
+                        confidenceNumber.style.borderColor = '#ffc107';
+                        confidenceNumber.style.color = '#ffc107';
+                    }
+                } else {
+                    progressRing.style.stroke = '#dc3545';
+                    if (confidenceNumber) {
+                        confidenceNumber.style.borderColor = '#dc3545';
+                        confidenceNumber.style.color = '#dc3545';
+                    }
+                }
+            }, 200);
+        }
+    }
+
+    animateNumber(element, start, end, duration) {
+        const range = end - start;
+        const startTime = performance.now();
+        
+        const updateNumber = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            const current = Math.round(start + (range * progress));
+            element.textContent = `${current}%`;
+            
+            if (progress < 1) {
+                requestAnimationFrame(updateNumber);
+            }
+        };
+        
+        requestAnimationFrame(updateNumber);
+    }
+
+    updateRecommendationBadge(analysis) {
+        const badge = document.getElementById('recommendationBadge');
+        const icon = document.getElementById('recommendationIcon');
+        const text = document.getElementById('recommendationTextNew');
+        
+        if (badge && icon && text) {
+            // Remove old classes
+            badge.classList.remove('proceed', 'reject', 'neutral');
+            
+            // Set icon and text based on recommendation
+            if (analysis.recommendation === 'PROCEED') {
+                badge.classList.add('proceed');
+                icon.textContent = '✅';
+                text.textContent = 'PROCEED';
+            } else if (analysis.recommendation === 'DO NOT PROCEED') {
+                badge.classList.add('reject');
+                icon.textContent = '❌';
+                text.textContent = 'DO NOT PROCEED';
+            } else {
+                badge.classList.add('neutral');
+                icon.textContent = '🤔';
+                text.textContent = 'NEUTRAL';
+            }
+        }
     }
 
     formatRecommendation(analysis) {
@@ -358,23 +682,6 @@ Please structure your response clearly with your recommendation and confidence l
         return `<strong>${icon} ${confidence}% Confidence: ${analysis.recommendation}</strong>`;
     }
 
-    formatReasoning(reasoning) {
-        // Convert line breaks to HTML and add basic formatting
-        let formatted = reasoning
-            .replace(/\n\n/g, '</p><p>')
-            .replace(/\n/g, '<br>')
-            .replace(/^/, '<p>')
-            .replace(/$/, '</p>');
-        
-        // Bold any section headers
-        formatted = formatted.replace(/^([A-Z][A-Z\s]+:)/gm, '<strong>$1</strong>');
-        
-        return formatted;
-    }
-
-    // ==============================================
-    // DECISION HISTORY MANAGEMENT
-    // ==============================================
     saveCurrentDecision() {
         if (!this.currentDecision) {
             alert('No decision to save.');
